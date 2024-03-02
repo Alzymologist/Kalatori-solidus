@@ -8,14 +8,14 @@ Gem::Specification.new do |spec|
   spec.authors = ['Kirill Pimenov']
   spec.email = 'kirill@pimenov.cc'
 
-  spec.summary = 'TODO: Write a short summary, because RubyGems requires one.'
-  spec.description = 'TODO: Write a longer description or delete this line.'
-  spec.homepage = 'https://github.com/solidusio-contrib/solidus_kalatori#readme'
+  spec.summary = 'Kalatori, a Polkadot non-custodial payments'
+  spec.description = 'This plugin integrates Kalatori, a non-custodial payments solution for Polkadot, into your Solidus store.'
+  spec.homepage = 'https://github.com/Alzymologist/solidus_kalatori#readme'
   spec.license = 'BSD-3-Clause'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/solidusio-contrib/solidus_kalatori'
-  spec.metadata['changelog_uri'] = 'https://github.com/solidusio-contrib/solidus_kalatori/blob/main/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/Alzymologist/solidus_kalatori'
+  spec.metadata['changelog_uri'] = 'https://github.com/Alzymologist/solidus_kalatori/blob/main/CHANGELOG.md'
 
   spec.required_ruby_version = Gem::Requirement.new('>= 2.5', '< 4')
 
