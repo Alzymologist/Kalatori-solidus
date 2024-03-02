@@ -1,0 +1,5 @@
+bump:
+  recurse: false
+  file: 'lib/solidus_kalatori/version.rb'
+  message: Bump SolidusKalatori to %{version}
+  tag: true
