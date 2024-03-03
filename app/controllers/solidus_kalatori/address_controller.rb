@@ -1,6 +1,6 @@
 require 'httparty'
 
-class Kalatori::AddressController < ApplicationController
+class SolidusKalatori::AddressController < ApplicationController
   include Spree::Core::ControllerHelpers::Store 
   include Spree::Core::ControllerHelpers::Order
   

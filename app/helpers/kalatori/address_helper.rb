@@ -1,2 +1,0 @@
-module Kalatori::AddressHelper
-end

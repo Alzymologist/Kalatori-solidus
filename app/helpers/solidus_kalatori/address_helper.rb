@@ -1,0 +1,2 @@
+module SolidusKalatori::AddressHelper
+end
