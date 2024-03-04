@@ -813,4 +813,11 @@ AJAX: function(url,opt,s) {
     // alert('Copy: '+(DOT.h(e).replace(/\n/g,'<br>')) );
  },
 
+ test: function() {
+	console.log('test');
+	setTimeout(function(){
+		console.log('test2');
+		document.getElementById("WalletID_load").style.display='';
+ 	},1000);
+ },
 };
