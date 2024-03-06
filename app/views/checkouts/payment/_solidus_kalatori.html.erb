@@ -59,7 +59,22 @@
 </div>
 
 <script type="text/javascript">
-  DOT.solidus_init();
+
+  <% # TODO: Only do this when our payment method is selected %>
+  
+  document.addEventListener('DOMContentLoaded', (event) => {
+    let submitButton = document.querySelector('.payment-step button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+    let csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    fetch('/kalatori/address/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({authenticity_token: csrf_token}) })
+      .then(response => response.json()).then(data => {
+        document.querySelectorAll('.kalatori_blockchain_address').forEach(e => e.value = data.pay_account);
+        submitButton.disabled = false;
+        submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+      });
+  });
 </script>
 
 <% param_prefix = "payment_source[#{payment_method.id}]" %>
