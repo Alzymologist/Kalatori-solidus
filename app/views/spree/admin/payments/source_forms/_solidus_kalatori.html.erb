@@ -1,0 +1,19 @@
+<h1>Hello!</h1>
+<p>This form allows creation of the new SolidusKalatori::BlockchainTransaction in the Admin Panel.</p>
+<p>Since our transactions are only created by blockcahin, via Kalatori backend daemon, the only thing we can do here is show this button:</p>
+<button class="btn btn-primary" id="check-blockchain">Check Blockchain</button>
+<script>
+  document.getElementById('check-blockchain').addEventListener('click', function() {
+    fetch('/admin/solidus_kalatori/blockchain_transactions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': '<%= spree_current_user.spree_api_key %>'
+      }
+    }).then(response => response.json()).then(data => {
+      console.log(data);
+      # Refreshing the page
+      location.reload();
+    });
+  });
+</script>

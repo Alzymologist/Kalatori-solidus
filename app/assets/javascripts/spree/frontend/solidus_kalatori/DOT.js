@@ -813,11 +813,13 @@ AJAX: function(url,opt,s) {
     // alert('Copy: '+(DOT.h(e).replace(/\n/g,'<br>')) );
  },
 
- test: function() {
-	console.log('test');
-	setTimeout(function(){
-		console.log('test2');
-		document.getElementById("WalletID_load").style.display='';
- 	},1000);
+ solidus_init: function() {
+	DOT.store = 'solidus';
+
+	let csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+	fetch('/kalatori/address/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({authenticity_token: csrf_token}) })
+	  .then(response => response.json()).then(data => {
+			document.querySelectorAll('.kalatori_blockchain_address').forEach(e => e.value = data.pay_account);
+		});
  },
 };

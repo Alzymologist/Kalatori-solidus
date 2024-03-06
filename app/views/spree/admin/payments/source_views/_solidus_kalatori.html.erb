@@ -1,0 +1,6 @@
+<h1>Transaction for order <%= @order.id %></h1>
+<p>Blockchain address: <%= link_to @payment.source.blockchain_address, "https://www.subscan.io/account/" + @payment.source.blockchain_address %></p>
+
+<pre>
+  <%= JSON.pretty_generate(@payment.source.attributes) %>
+</pre>

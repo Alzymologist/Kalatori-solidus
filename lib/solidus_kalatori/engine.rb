@@ -21,5 +21,9 @@ module SolidusKalatori
         app.config.spree.payment_methods << SolidusKalatori::PaymentMethod
       end
     end
+
+    config.to_prepare do
+      ::Spree::PermittedAttributes.source_attributes << :blockchain_address
+    end
   end
 end

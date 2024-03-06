@@ -1,6 +1,8 @@
 class SolidusKalatori::BlockchainTransaction < Spree::PaymentSource
   self.table_name = "solidus_kalatori_blockchain_transactions"
 
+  belongs_to :payment_method, class_name: 'Spree::PaymentMethod'
+
   # Payment sources respond to a very simple API which tells Solidus what operations can or cannot be performed on
   # the payment source. Solidus will use this information to display/hide certain actions on the backend, or to control
   # the order processing flow:
@@ -21,6 +23,10 @@ class SolidusKalatori::BlockchainTransaction < Spree::PaymentSource
 
   def can_capture?(payment)
     payment.pending? || payment.checkout?
+  end
+
+  def auth_token
+    blockchain_address
   end
 
   def can_void?(payment)

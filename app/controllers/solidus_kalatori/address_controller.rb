@@ -1,29 +1,33 @@
 require 'httparty'
 
 class SolidusKalatori::AddressController < ApplicationController
+  protect_from_forgery with: :exception
+
   include Spree::Core::ControllerHelpers::Store 
   include Spree::Core::ControllerHelpers::Order
   
-  cattr_reader :plancks_multiplier
-
-  def initialize
-    @@plancks_multiplier ||= fetch_plancks_multiplier
-  end
-
   def generate
     # Getting current shopping cart price from session
     @order = current_order(create_order_if_necessary: true)
-    price = (@order.total * plancks_multiplier).to_i
+
+    # Fail if we can't find the order
+    render json: { error: "Order not found" }, status: 404 and return unless @order
+
+    payment_method = Spree::PaymentMethod.find_by_type(SolidusKalatori::PaymentMethod.to_s)
+    backend_url = payment_method.preferences[:backend_url]
+
+    kalatori_response = HTTParty.get("#{backend_url}/order/#{@order.id}/price/#{@order.total}").parsed_response
+
+    payment = @order.payments.find_or_create_by!(payment_method: Spree::PaymentMethod.find_by_type(SolidusKalatori::PaymentMethod.to_s)) do |payment|
+      payment.source = SolidusKalatori::BlockchainTransaction.create!(blockchain_address: kalatori_response['pay_account'], payment_method: payment.payment_method)
+      payment.amount = @order.total
+    end
     
-    response = HTTParty.get("http://localhost:4010/order/#{@order.id}/price/#{price}")
-    render json: response
-  end
+    if kalatori_response["result"] == "paid"
+      # Marking order as paid
+      payment.complete! unless payment.completed?
+    end
 
-
-  private
-  # TODO: make sure to ignore errors in the daemon's response
-  def fetch_plancks_multiplier
-    response = HTTParty.get('http://localhost:4010/order/0/price/0')
-    10**response['mul']
+    render json: kalatori_response
   end
 end
