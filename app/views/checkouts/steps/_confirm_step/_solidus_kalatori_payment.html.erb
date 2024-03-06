@@ -1,0 +1,9 @@
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  console.log('Solidus Kalatori Payment');
+  fetch('/kalatori/address/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({authenticity_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')}) })
+    .then(response => response.json()).then(data => {
+      console.log(data);
+    });
+});
+</script>
